@@ -16,10 +16,10 @@ struct Bot {
     discord_guild_id: GuildId,
 }
 
-#[shuttle_service::main]
+#[shuttle_runtime::main]
 async fn serenity(
     #[shuttle_secrets::Secrets] secret_store: SecretStore,
-) -> shuttle_service::ShuttleSerenity {
+) -> shuttle_serenity::ShuttleSerenity {
     // Get the discord token set in `Secrets.toml`
     let discord_token = secret_store
         .get("DISCORD_TOKEN")
@@ -40,7 +40,7 @@ async fn serenity(
     )
     .await;
 
-    Ok(client)
+    Ok(client.into())
 }
 
 pub async fn get_client(
